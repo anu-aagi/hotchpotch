@@ -68,3 +68,131 @@ $$\text{Var}\left(\begin{bmatrix} \hat{\boldsymbol{\beta}} - \boldsymbol{\beta} 
 $$\mathbf{D}\tilde{\boldsymbol{b}} = \begin{bmatrix} \mathbf{D}_{\beta} & \mathbf{D}_{u} \end{bmatrix} \begin{bmatrix} \hat{\boldsymbol{\beta}} \\ \tilde{\boldsymbol{u}} \end{bmatrix} = \mathbf{D}_{\beta}\hat{\boldsymbol{\beta}} + \mathbf{D}_{u}\tilde{\boldsymbol{u}}$$
 
 $$\text{Var}(\mathbf{D}\tilde{\boldsymbol{b}} - \mathbf{D}\boldsymbol{b}) = \mathbf{D}\mathbf{C}^{-1}\mathbf{D}^\top = \mathbf{D}_\beta \mathbf{C}^{XX} \mathbf{D}_\beta^\top + \mathbf{D}_\beta \mathbf{C}^{XZ} \mathbf{D}_u^\top + \mathbf{D}_u \mathbf{C}^{ZX} \mathbf{D}_\beta^\top + \mathbf{D}_u \mathbf{C}^{ZZ} \mathbf{D}_u^\top$$
+
+## ASReml-R 
+
+```{r}
+#| warning: false
+#| message: false
+#| output: false
+library(tidyverse)
+library(asreml)
+library(broom.asreml)
+asreml.options(design = TRUE, 
+               Cfixed = TRUE, 
+               Csparse =~ Blocks/Wplots)
+fit <- asreml(yield ~ Variety * Nitrogen,  
+              random = ~ Blocks/Wplots, data = oats)
+
+X <- model.matrix(~ Variety*Nitrogen, data = oats)
+Z <- cbind(model.matrix(~ Blocks - 1, data = oats), model.matrix(~ Blocks:Wplots - 1, data = oats))
+n <- nrow(X)
+```
+
+### Did the model converge?
+
+```{r}
+fit$converge
+```
+
+### Residual log-likelihood 
+
+```{r}
+fit$loglik
+```
+
+### Residual variance 
+
+If $\mathbf{R} = \sigma^2 \mathbf{I}$, then the residual variance is given by
+
+```{r}
+fit$sigma2
+```
+
+```{r}
+R <- fit$sigma2 * diag(n)
+```
+
+
+### Variance parameters
+
+```{r}
+fit$vparameters
+```
+
+```{r}
+G <- fit$sigma2 * Matrix::bdiag(fit$vparameters[1] * diag(6), fit$vparameters[2] * diag(18))
+```
+
+### Coefficients
+
+```{r}
+fit$coefficients
+```
+
+
+
+```{r}
+V <- Z %*% G %*% t(Z) + R
+Vinv <- solve(V)
+P <- Vinv - Vinv %*% X %*% solve(t(X) %*% Vinv %*% X) %*% t(X) %*% Vinv
+
+
+(beta_hat <- solve(t(X) %*% Vinv %*% X) %*% t(X) %*% Vinv %*% oats$yield)
+(u_tilde <- G %*% t(Z) %*% Vinv %*% (oats$yield - X %*% beta_hat))
+```
+
+
+### Variance-covariance matrix of coefficients
+
+$\dfrac{1}{\hat{\sigma}^2}\text{diag}(\mathbf{C}^{-1})$
+
+```{r}
+fit$vcoeff
+```
+
+```{r}
+C <- rbind(cbind(t(X) %*% solve(R) %*% X, t(X) %*% solve(R) %*% Z), cbind(t(Z) %*% solve(R) %*% X, t(Z) %*% solve(R) %*% Z + solve(G)))
+Cinv <- solve(C)
+diag(Cinv) / fit$sigma2
+```
+
+## Linear predictors
+
+$\mathbf{X}\hat{\boldsymbol{\beta}} + \mathbf{Z}\tilde{\boldsymbol{u}}$
+
+```{r}
+fit$linear.predictors
+```
+
+```{r}
+as.vector(X %*% beta_hat + Z %*% u_tilde)
+```
+
+## Prediction error variance
+
+```{r}
+image(fit$Cfixed)
+```
+
+```{r}
+image(solve(t(X) %*% Vinv %*% X))
+```
+
+```{r}
+fit$Csparse |> 
+  asreml::sp2Matrix() |> 
+  image()
+```
+
+```{r}
+image(G - G %*% t(Z) %*% P %*% Z %*% G)
+```
+
+## Design matrices
+
+$\mathbf{W} = \begin{bmatrix} \mathbf{X} & \mathbf{Z} \end{bmatrix}$
+
+```{r}
+image(fit$design)
+```
