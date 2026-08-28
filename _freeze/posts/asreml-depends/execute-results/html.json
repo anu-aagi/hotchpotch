@@ -1,0 +1,15 @@
+{
+  "hash": "944b6c648c0159232319e68d54621c45",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: Publishing R package with asreml dependency\ndate: 2026-08-28\n---\n\nSince `asreml` is a propreity software, you cannot just import `asreml` in an R package that depends on it. \n\nIn the DESCRIPTION file, you ought to add that \n\n```bash\nSystemRequirements:\n    asreml (>= 4.2.0)\n```\n\nSome R packages on CRAN that has an asreml R dependency:\n\n\n::: {.cell}\n\n:::\n\n\n- [agriutilities](https://cran.r-project.org/web/packages/agriutilities/index.html)\n- [asremlPlus](https://cran.r-project.org/web/packages/asremlPlus/index.html)\n- [ASRgenomics](https://cran.r-project.org/web/packages/ASRgenomics/index.html)\n- [biometryassist](https://cran.r-project.org/web/packages/biometryassist/index.html)\n- [heritable](https://cran.r-project.org/web/packages/heritable/index.html)\n- [mintyr](https://cran.r-project.org/web/packages/mintyr/index.html)\n- [nadiv](https://cran.r-project.org/web/packages/nadiv/index.html)\n- [statgenGxE](https://cran.r-project.org/web/packages/statgenGxE/index.html)\n- [statgenHTP](https://cran.r-project.org/web/packages/statgenHTP/index.html)\n- [statgenSTA](https://cran.r-project.org/web/packages/statgenSTA/index.html)\n- [wgaim](https://cran.r-project.org/web/packages/wgaim/index.html)",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

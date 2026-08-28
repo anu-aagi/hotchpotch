@@ -1,0 +1,56 @@
+---
+title: Linear Mixed Models
+date: 2026-08-29
+---
+
+## Model setup
+
+$$\boldsymbol{y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{Z}\boldsymbol{u} + \boldsymbol{\epsilon}$$
+
+where 
+
+- $\boldsymbol{y}$ is the vector of observations
+- $\mathbf{X}$ is the design matrix for fixed effects
+- $\boldsymbol{\beta}$ is the vector of fixed effects
+- $\mathbf{Z}$ is the design matrix for random effects
+- $\boldsymbol{u}$ is the vector of random effects
+- $\boldsymbol{\epsilon}$ is the vector of residuals,
+
+assuming
+
+$$\begin{bmatrix} \boldsymbol{u} \\ \boldsymbol{\epsilon} \end{bmatrix} \sim N\left(\begin{bmatrix} \boldsymbol{0} \\ \boldsymbol{0} \end{bmatrix}, \begin{bmatrix} \mathbf{G}(\boldsymbol{\sigma}_g) & \boldsymbol{0} \\ \boldsymbol{0} & \mathbf{R}(\boldsymbol{\sigma}_r) \end{bmatrix}\right)$$
+
+where $\mathbf{G}$ is the covariance matrix of random effects and $\mathbf{R}$ is the covariance matrix of residuals.
+
+## Mixed model equation 
+
+Also called Henderson's mixed model equation, the mixed model equation is given by
+
+$$\underbrace{\begin{bmatrix} \mathbf{X}^\top \mathbf{R}^{-1} \mathbf{X} & \mathbf{X}^\top \mathbf{R}^{-1} \mathbf{Z} \\ \mathbf{Z}^\top \mathbf{R}^{-1} \mathbf{X} & \mathbf{Z}^\top \mathbf{R}^{-1} \mathbf{Z} + \mathbf{G}^{-1} \end{bmatrix}}_{\mathbf{C}} \begin{bmatrix} \boldsymbol{\beta} \\ \boldsymbol{u} \end{bmatrix} = \begin{bmatrix} \mathbf{X}^\top \mathbf{R}^{-1} \boldsymbol{y} \\ \mathbf{Z}^\top \mathbf{R}^{-1} \boldsymbol{y} \end{bmatrix}$$
+
+
+- Best Linear Unbiased Estimator (BLUE): $\hat{\boldsymbol{\beta}} = (\mathbf{X}^\top \mathbf{V}^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{V}^{-1} \boldsymbol{y}$ 
+- Best Linear Unbiased Predictor (BLUP): $\tilde{\boldsymbol{u}} = \mathbf{G} \mathbf{Z}^\top \mathbf{V}^{-1} (\boldsymbol{y} - \mathbf{X}\hat{\boldsymbol{\beta}})$
+- $\tilde{\boldsymbol{\epsilon}} = \mathbf{R}\mathbf{P}\boldsymbol{y}$
+
+## Useful matrices
+
+- $\mathbf{V} = \text{Var}(\boldsymbol{y}) = \mathbf{Z}\mathbf{G}\mathbf{Z}^\top + \mathbf{R}$
+
+- $\mathbf{P} = \mathbf{V}^{-1} - \mathbf{V}^{-1} \mathbf{X} (\mathbf{X}^\top \mathbf{V}^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{V}^{-1}$
+
+- $\mathbf{C} = \begin{bmatrix} \mathbf{X}^\top \mathbf{R}^{-1} \mathbf{X} & \mathbf{X}^\top \mathbf{R}^{-1} \mathbf{Z} \\ \mathbf{Z}^\top \mathbf{R}^{-1} \mathbf{X} & \mathbf{Z}^\top \mathbf{R}^{-1} \mathbf{Z} + \mathbf{G}^{-1} \end{bmatrix}$
+
+## Prediction error variance
+
+
+- $\mathbf{C}^{XX} = \text{Var}(\hat{\boldsymbol{\beta}} - \boldsymbol{\beta}) =\text{Var}(\hat{\boldsymbol{\beta}}) = (\mathbf{X}^\top \mathbf{V}^{-1} \mathbf{X})^{-1}$
+
+- $\mathbf{C}^{ZZ} = \text{Var}(\tilde{\boldsymbol{u}} - \boldsymbol{u}) = \mathbf{G} - \mathbf{G} \mathbf{Z}^\top \mathbf{P} \mathbf{Z} \mathbf{G}$
+
+- $\mathbf{C}^{XZ} = \text{Cov}(\hat{\boldsymbol{\beta}} - \boldsymbol{\beta}, \tilde{\boldsymbol{u}} - \boldsymbol{u}) = -(\mathbf{X}^\top \mathbf{V}^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{V}^{-1} \mathbf{Z} \mathbf{G}$
+
+- $\mathbf{C}^{ZX} = \text{Cov}(\tilde{\boldsymbol{u}} - \boldsymbol{u}, \hat{\boldsymbol{\beta}} - \boldsymbol{\beta}) = -\mathbf{G} \mathbf{Z}^\top \mathbf{V}^{-1} \mathbf{X} (\mathbf{X}^\top \mathbf{V}^{-1} \mathbf{X})^{-1}$
+
+
+$$\text{Var}\left(\begin{bmatrix} \hat{\boldsymbol{\beta}} - \boldsymbol{\beta} \\ \tilde{\boldsymbol{u}} - \boldsymbol{u} \end{bmatrix} \right) = \mathbf{C}^{-1} = \begin{bmatrix}\mathbf{C}^{XX} & \mathbf{C}^{XZ} \\ \mathbf{C}^{ZX} & \mathbf{C}^{ZZ} \end{bmatrix}$$

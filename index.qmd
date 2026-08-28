@@ -1,7 +1,23 @@
-# Hello! {.unnumbered}
+---
+title: Hello! Welcome to the Hotchpotch for the Biometrician
+listing:
+  - id: posts
+    contents: posts
+    type: grid
+    categories: true
+    fields: [date, title, reading-time]
+    sort-ui: true
+    filter-ui: true
+---
 
-This handbook is a hotchpotch of things that might be useful for the biometrician.
+
+This website is a hotchpotch of things that might be useful for the biometrician.
 
 It is acting as a primary dumping ground for things that might be useful but don't have a clear home to go to.
 
-You are highly welcomed to contribute to its development!
+You are highly welcomed to add your own post to this website. 
+
+## Posts
+
+:::{#posts}
+:::

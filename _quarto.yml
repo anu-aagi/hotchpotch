@@ -1,16 +1,17 @@
 project:
-  type: book
+  type: website
 
-book:
+website:
   title: A Hotchpotch for the Biometrician
-  date: today
-  chapters:
-    - index.qmd
-    - asreml-depends.qmd
-
-bibliography: references.bib
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+  search: 
+      location: navbar
+      type: textbox
 
 format:
   html:
-    theme: cosmo
+    theme: united
     published-title: "Last modified on"

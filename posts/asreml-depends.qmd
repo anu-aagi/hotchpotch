@@ -1,4 +1,7 @@
-## Publishing R package with asreml dependency
+---
+title: Publishing R package with asreml dependency
+date: 2026-08-28
+---
 
 Since `asreml` is a propreity software, you cannot just import `asreml` in an R package that depends on it. 
 
