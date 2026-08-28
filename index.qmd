@@ -3,3 +3,5 @@
 This handbook is a hotchpotch of things that might be useful for the biometrician.
 
 It is acting as a primary dumping ground for things that might be useful but don't have a clear home to go to.
+
+You are highly welcomed to contribute to its development!
