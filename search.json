@@ -2,21 +2,113 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "A Hotchpotch for the Biometrician",
+    "title": "Hello! Welcome to the Hotchpotch for the Biometrician",
     "section": "",
-    "text": "Hello!\nThis handbook is a hotchpotch of things that might be useful for the biometrician.\nIt is acting as a primary dumping ground for things that might be useful but don’t have a clear home to go to.",
-    "crumbs": [
-      "Hello!"
-    ]
+    "text": "This website is a hotchpotch of things that might be useful for the biometrician.\nIt is acting as a primary dumping ground for things that might be useful but don’t have a clear home to go to.\nYou are highly welcomed to add your own post to this website."
   },
   {
-    "objectID": "asreml-depends.html",
-    "href": "asreml-depends.html",
-    "title": "1  Publishing R package with asreml dependency",
+    "objectID": "index.html#posts",
+    "href": "index.html#posts",
+    "title": "Hello! Welcome to the Hotchpotch for the Biometrician",
+    "section": "Posts",
+    "text": "Posts\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\nLinear Mixed Models\n\n2 min\n\n\nAug 29, 2026\n\n\n\n\n\n\n\n\n\n\nPublishing R package with asreml dependency\n\n1 min\n\n\nAug 28, 2026\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/linear-mixed-models.html",
+    "href": "posts/linear-mixed-models.html",
+    "title": "Linear Mixed Models",
     "section": "",
-    "text": "Since asreml is a propreity software, you cannot just import asreml in an R package that depends on it.\nIn the DESCRIPTION file, you ought to add that\nSystemRequirements:\n    asreml (&gt;= 4.2.0)\nSome R packages on CRAN that has an asreml R dependency:\n\nagriutilities\nasremlPlus\nASRgenomics\nbiometryassist\nheritable\nmintyr\nnadiv\nstatgenGxE\nstatgenHTP\nstatgenSTA\nwgaim",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Publishing R package with asreml dependency</span>"
-    ]
+    "text": "\\[\\boldsymbol{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\mathbf{Z}\\boldsymbol{u} + \\boldsymbol{\\epsilon}\\]\nwhere\n\n\\(\\boldsymbol{y}\\) is the vector of observations\n\\(\\mathbf{X}\\) is the design matrix for fixed effects\n\\(\\boldsymbol{\\beta}\\) is the vector of fixed effects\n\\(\\mathbf{Z}\\) is the design matrix for random effects\n\\(\\boldsymbol{u}\\) is the vector of random effects\n\\(\\boldsymbol{\\epsilon}\\) is the vector of residuals,\n\nassuming\n\\[\\begin{bmatrix} \\boldsymbol{u} \\\\ \\boldsymbol{\\epsilon} \\end{bmatrix} \\sim N\\left(\\begin{bmatrix} \\boldsymbol{0} \\\\ \\boldsymbol{0} \\end{bmatrix}, \\begin{bmatrix} \\mathbf{G}(\\boldsymbol{\\sigma}_g) & \\boldsymbol{0} \\\\ \\boldsymbol{0} & \\mathbf{R}(\\boldsymbol{\\sigma}_r) \\end{bmatrix}\\right)\\]\nwhere \\(\\mathbf{G}\\) is the covariance matrix of random effects and \\(\\mathbf{R}\\) is the covariance matrix of residuals."
+  },
+  {
+    "objectID": "posts/linear-mixed-models.html#model-setup",
+    "href": "posts/linear-mixed-models.html#model-setup",
+    "title": "Linear Mixed Models",
+    "section": "",
+    "text": "\\[\\boldsymbol{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\mathbf{Z}\\boldsymbol{u} + \\boldsymbol{\\epsilon}\\]\nwhere\n\n\\(\\boldsymbol{y}\\) is the vector of observations\n\\(\\mathbf{X}\\) is the design matrix for fixed effects\n\\(\\boldsymbol{\\beta}\\) is the vector of fixed effects\n\\(\\mathbf{Z}\\) is the design matrix for random effects\n\\(\\boldsymbol{u}\\) is the vector of random effects\n\\(\\boldsymbol{\\epsilon}\\) is the vector of residuals,\n\nassuming\n\\[\\begin{bmatrix} \\boldsymbol{u} \\\\ \\boldsymbol{\\epsilon} \\end{bmatrix} \\sim N\\left(\\begin{bmatrix} \\boldsymbol{0} \\\\ \\boldsymbol{0} \\end{bmatrix}, \\begin{bmatrix} \\mathbf{G}(\\boldsymbol{\\sigma}_g) & \\boldsymbol{0} \\\\ \\boldsymbol{0} & \\mathbf{R}(\\boldsymbol{\\sigma}_r) \\end{bmatrix}\\right)\\]\nwhere \\(\\mathbf{G}\\) is the covariance matrix of random effects and \\(\\mathbf{R}\\) is the covariance matrix of residuals."
+  },
+  {
+    "objectID": "posts/linear-mixed-models.html#mixed-model-equation",
+    "href": "posts/linear-mixed-models.html#mixed-model-equation",
+    "title": "Linear Mixed Models",
+    "section": "Mixed model equation",
+    "text": "Mixed model equation\nAlso called Henderson’s mixed model equation, the mixed model equation is given by\n\\[\\underbrace{\\begin{bmatrix} \\mathbf{X}^\\top \\mathbf{R}^{-1} \\mathbf{X} & \\mathbf{X}^\\top \\mathbf{R}^{-1} \\mathbf{Z} \\\\ \\mathbf{Z}^\\top \\mathbf{R}^{-1} \\mathbf{X} & \\mathbf{Z}^\\top \\mathbf{R}^{-1} \\mathbf{Z} + \\mathbf{G}^{-1} \\end{bmatrix}}_{\\mathbf{C}} \\begin{bmatrix} \\boldsymbol{\\beta} \\\\ \\boldsymbol{u} \\end{bmatrix} = \\begin{bmatrix} \\mathbf{X}^\\top \\mathbf{R}^{-1} \\boldsymbol{y} \\\\ \\mathbf{Z}^\\top \\mathbf{R}^{-1} \\boldsymbol{y} \\end{bmatrix}\\]\n\nBest Linear Unbiased Estimator (BLUE): \\(\\hat{\\boldsymbol{\\beta}} = (\\mathbf{X}^\\top \\mathbf{V}^{-1} \\mathbf{X})^{-1} \\mathbf{X}^\\top \\mathbf{V}^{-1} \\boldsymbol{y}\\)\nBest Linear Unbiased Predictor (BLUP): \\(\\tilde{\\boldsymbol{u}} = \\mathbf{G} \\mathbf{Z}^\\top \\mathbf{V}^{-1} (\\boldsymbol{y} - \\mathbf{X}\\hat{\\boldsymbol{\\beta}})\\)\n\\(\\tilde{\\boldsymbol{\\epsilon}} = \\mathbf{R}\\mathbf{P}\\boldsymbol{y}\\)"
+  },
+  {
+    "objectID": "posts/linear-mixed-models.html#useful-matrices",
+    "href": "posts/linear-mixed-models.html#useful-matrices",
+    "title": "Linear Mixed Models",
+    "section": "Useful matrices",
+    "text": "Useful matrices\n\n\\(\\mathbf{V} = \\text{Var}(\\boldsymbol{y}) = \\mathbf{Z}\\mathbf{G}\\mathbf{Z}^\\top + \\mathbf{R}\\)\n\\(\\mathbf{P} = \\mathbf{V}^{-1} - \\mathbf{V}^{-1} \\mathbf{X} (\\mathbf{X}^\\top \\mathbf{V}^{-1} \\mathbf{X})^{-1} \\mathbf{X}^\\top \\mathbf{V}^{-1}\\)\n\\(\\mathbf{C} = \\begin{bmatrix} \\mathbf{X}^\\top \\mathbf{R}^{-1} \\mathbf{X} & \\mathbf{X}^\\top \\mathbf{R}^{-1} \\mathbf{Z} \\\\ \\mathbf{Z}^\\top \\mathbf{R}^{-1} \\mathbf{X} & \\mathbf{Z}^\\top \\mathbf{R}^{-1} \\mathbf{Z} + \\mathbf{G}^{-1} \\end{bmatrix}\\)"
+  },
+  {
+    "objectID": "posts/linear-mixed-models.html#prediction-error-variance",
+    "href": "posts/linear-mixed-models.html#prediction-error-variance",
+    "title": "Linear Mixed Models",
+    "section": "Prediction error variance",
+    "text": "Prediction error variance\n\n\\(\\mathbf{C}^{XX} = \\text{Var}(\\hat{\\boldsymbol{\\beta}} - \\boldsymbol{\\beta}) =\\text{Var}(\\hat{\\boldsymbol{\\beta}}) = (\\mathbf{X}^\\top \\mathbf{V}^{-1} \\mathbf{X})^{-1}\\)\n\\(\\mathbf{C}^{ZZ} = \\text{Var}(\\tilde{\\boldsymbol{u}} - \\boldsymbol{u}) = \\mathbf{G} - \\mathbf{G} \\mathbf{Z}^\\top \\mathbf{P} \\mathbf{Z} \\mathbf{G}\\)\n\\(\\mathbf{C}^{XZ} = \\text{Cov}(\\hat{\\boldsymbol{\\beta}} - \\boldsymbol{\\beta}, \\tilde{\\boldsymbol{u}} - \\boldsymbol{u}) = -(\\mathbf{X}^\\top \\mathbf{V}^{-1} \\mathbf{X})^{-1} \\mathbf{X}^\\top \\mathbf{V}^{-1} \\mathbf{Z} \\mathbf{G}\\)\n\\(\\mathbf{C}^{ZX} = \\text{Cov}(\\tilde{\\boldsymbol{u}} - \\boldsymbol{u}, \\hat{\\boldsymbol{\\beta}} - \\boldsymbol{\\beta}) = -\\mathbf{G} \\mathbf{Z}^\\top \\mathbf{V}^{-1} \\mathbf{X} (\\mathbf{X}^\\top \\mathbf{V}^{-1} \\mathbf{X})^{-1}\\)\n\n\\[\\text{Var}\\left(\\begin{bmatrix} \\hat{\\boldsymbol{\\beta}} - \\boldsymbol{\\beta} \\\\ \\tilde{\\boldsymbol{u}} - \\boldsymbol{u} \\end{bmatrix} \\right) = \\mathbf{C}^{-1} = \\begin{bmatrix}\\mathbf{C}^{XX} & \\mathbf{C}^{XZ} \\\\ \\mathbf{C}^{ZX} & \\mathbf{C}^{ZZ} \\end{bmatrix}\\]"
+  },
+  {
+    "objectID": "CODE_OF_CONDUCT.html",
+    "href": "CODE_OF_CONDUCT.html",
+    "title": "Contributor Covenant Code of Conduct",
+    "section": "",
+    "text": "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation.\nWe pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.\n\n\n\nExamples of behavior that contributes to a positive environment for our community include:\n\nDemonstrating empathy and kindness toward other people\nBeing respectful of differing opinions, viewpoints, and experiences\nGiving and gracefully accepting constructive feedback\nAccepting responsibility and apologizing to those affected by our mistakes, and learning from the experience\nFocusing on what is best not just for us as individuals, but for the overall community\n\nExamples of unacceptable behavior include:\n\nThe use of sexualized language or imagery, and sexual attention or advances of any kind\nTrolling, insulting or derogatory comments, and personal or political attacks\nPublic or private harassment\nPublishing others’ private information, such as a physical or email address, without their explicit permission\nOther conduct which could reasonably be considered inappropriate in a professional setting\n\n\n\n\nCommunity leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.\nCommunity leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate.\n\n\n\nThis Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event.\n\n\n\nInstances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement at emi.tanaka@anu.edu.au. All complaints will be reviewed and investigated promptly and fairly.\nAll community leaders are obligated to respect the privacy and security of the reporter of any incident.\n\n\n\nCommunity leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:\n\n\nCommunity Impact: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.\nConsequence: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.\n\n\n\nCommunity Impact: A violation through a single incident or series of actions.\nConsequence: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.\n\n\n\nCommunity Impact: A serious violation of community standards, including sustained inappropriate behavior.\nConsequence: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.\n\n\n\nCommunity Impact: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.\nConsequence: A permanent ban from any sort of public interaction within the community.\n\n\n\n\nThis Code of Conduct is adapted from the Contributor Covenant, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct.html.\nCommunity Impact Guidelines were inspired by [Mozilla’s code of conduct enforcement ladder][https://github.com/mozilla/inclusion].\nFor answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations."
+  },
+  {
+    "objectID": "CODE_OF_CONDUCT.html#our-pledge",
+    "href": "CODE_OF_CONDUCT.html#our-pledge",
+    "title": "Contributor Covenant Code of Conduct",
+    "section": "",
+    "text": "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation.\nWe pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community."
+  },
+  {
+    "objectID": "CODE_OF_CONDUCT.html#our-standards",
+    "href": "CODE_OF_CONDUCT.html#our-standards",
+    "title": "Contributor Covenant Code of Conduct",
+    "section": "",
+    "text": "Examples of behavior that contributes to a positive environment for our community include:\n\nDemonstrating empathy and kindness toward other people\nBeing respectful of differing opinions, viewpoints, and experiences\nGiving and gracefully accepting constructive feedback\nAccepting responsibility and apologizing to those affected by our mistakes, and learning from the experience\nFocusing on what is best not just for us as individuals, but for the overall community\n\nExamples of unacceptable behavior include:\n\nThe use of sexualized language or imagery, and sexual attention or advances of any kind\nTrolling, insulting or derogatory comments, and personal or political attacks\nPublic or private harassment\nPublishing others’ private information, such as a physical or email address, without their explicit permission\nOther conduct which could reasonably be considered inappropriate in a professional setting"
+  },
+  {
+    "objectID": "CODE_OF_CONDUCT.html#enforcement-responsibilities",
+    "href": "CODE_OF_CONDUCT.html#enforcement-responsibilities",
+    "title": "Contributor Covenant Code of Conduct",
+    "section": "",
+    "text": "Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.\nCommunity leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate."
+  },
+  {
+    "objectID": "CODE_OF_CONDUCT.html#scope",
+    "href": "CODE_OF_CONDUCT.html#scope",
+    "title": "Contributor Covenant Code of Conduct",
+    "section": "",
+    "text": "This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event."
+  },
+  {
+    "objectID": "CODE_OF_CONDUCT.html#enforcement",
+    "href": "CODE_OF_CONDUCT.html#enforcement",
+    "title": "Contributor Covenant Code of Conduct",
+    "section": "",
+    "text": "Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement at emi.tanaka@anu.edu.au. All complaints will be reviewed and investigated promptly and fairly.\nAll community leaders are obligated to respect the privacy and security of the reporter of any incident."
+  },
+  {
+    "objectID": "CODE_OF_CONDUCT.html#enforcement-guidelines",
+    "href": "CODE_OF_CONDUCT.html#enforcement-guidelines",
+    "title": "Contributor Covenant Code of Conduct",
+    "section": "",
+    "text": "Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:\n\n\nCommunity Impact: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.\nConsequence: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.\n\n\n\nCommunity Impact: A violation through a single incident or series of actions.\nConsequence: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.\n\n\n\nCommunity Impact: A serious violation of community standards, including sustained inappropriate behavior.\nConsequence: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.\n\n\n\nCommunity Impact: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.\nConsequence: A permanent ban from any sort of public interaction within the community."
+  },
+  {
+    "objectID": "CODE_OF_CONDUCT.html#attribution",
+    "href": "CODE_OF_CONDUCT.html#attribution",
+    "title": "Contributor Covenant Code of Conduct",
+    "section": "",
+    "text": "This Code of Conduct is adapted from the Contributor Covenant, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct.html.\nCommunity Impact Guidelines were inspired by [Mozilla’s code of conduct enforcement ladder][https://github.com/mozilla/inclusion].\nFor answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations."
+  },
+  {
+    "objectID": "posts/asreml-depends.html",
+    "href": "posts/asreml-depends.html",
+    "title": "Publishing R package with asreml dependency",
+    "section": "",
+    "text": "Since asreml is a propreity software, you cannot just import asreml in an R package that depends on it.\nIn the DESCRIPTION file, you ought to add that\nSystemRequirements:\n    asreml (&gt;= 4.2.0)\nSome R packages on CRAN that has an asreml R dependency:\n\nagriutilities\nasremlPlus\nASRgenomics\nbiometryassist\nheritable\nmintyr\nnadiv\nstatgenGxE\nstatgenHTP\nstatgenSTA\nwgaim"
   }
 ]
