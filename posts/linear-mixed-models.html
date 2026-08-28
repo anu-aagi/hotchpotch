@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -215,6 +250,350 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="prediction">Prediction</h2>
 <p><span class="math display">\[\mathbf{D}\tilde{\boldsymbol{b}} = \begin{bmatrix} \mathbf{D}_{\beta} &amp; \mathbf{D}_{u} \end{bmatrix} \begin{bmatrix} \hat{\boldsymbol{\beta}} \\ \tilde{\boldsymbol{u}} \end{bmatrix} = \mathbf{D}_{\beta}\hat{\boldsymbol{\beta}} + \mathbf{D}_{u}\tilde{\boldsymbol{u}}\]</span></p>
 <p><span class="math display">\[\text{Var}(\mathbf{D}\tilde{\boldsymbol{b}} - \mathbf{D}\boldsymbol{b}) = \mathbf{D}\mathbf{C}^{-1}\mathbf{D}^\top = \mathbf{D}_\beta \mathbf{C}^{XX} \mathbf{D}_\beta^\top + \mathbf{D}_\beta \mathbf{C}^{XZ} \mathbf{D}_u^\top + \mathbf{D}_u \mathbf{C}^{ZX} \mathbf{D}_\beta^\top + \mathbf{D}_u \mathbf{C}^{ZZ} \mathbf{D}_u^\top\]</span></p>
+</section>
+<section id="asreml-r" class="level2">
+<h2 class="anchored" data-anchor-id="asreml-r">ASReml-R</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(asreml)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom.asreml)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">asreml.options</span>(<span class="at">design =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">Cfixed =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">Csparse =</span><span class="sc">~</span> Blocks<span class="sc">/</span>Wplots)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">asreml</span>(yield <span class="sc">~</span> Variety <span class="sc">*</span> Nitrogen,  </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">random =</span> <span class="sc">~</span> Blocks<span class="sc">/</span>Wplots, <span class="at">data =</span> oats)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span> Variety<span class="sc">*</span>Nitrogen, <span class="at">data =</span> oats)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">model.matrix</span>(<span class="sc">~</span> Blocks <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> oats), <span class="fu">model.matrix</span>(<span class="sc">~</span> Blocks<span class="sc">:</span>Wplots <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> oats))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="did-the-model-converge" class="level3">
+<h3 class="anchored" data-anchor-id="did-the-model-converge">Did the model converge?</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>converge</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="residual-log-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="residual-log-likelihood">Residual log-likelihood</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>loglik</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -209.3779</code></pre>
+</div>
+</div>
+</section>
+<section id="residual-variance" class="level3">
+<h3 class="anchored" data-anchor-id="residual-variance">Residual variance</h3>
+<p>If <span class="math inline">\(\mathbf{R} = \sigma^2 \mathbf{I}\)</span>, then the residual variance is given by</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>sigma2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 177.0946</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> fit<span class="sc">$</span>sigma2 <span class="sc">*</span> <span class="fu">diag</span>(n)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="variance-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="variance-parameters">Variance parameters</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>vparameters</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Blocks Blocks:Wplots       units!R 
+    1.2111639     0.5989373     1.0000000 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> fit<span class="sc">$</span>sigma2 <span class="sc">*</span> Matrix<span class="sc">::</span><span class="fu">bdiag</span>(fit<span class="sc">$</span>vparameters[<span class="dv">1</span>] <span class="sc">*</span> <span class="fu">diag</span>(<span class="dv">6</span>), fit<span class="sc">$</span>vparameters[<span class="dv">2</span>] <span class="sc">*</span> <span class="fu">diag</span>(<span class="dv">18</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="coefficients" class="level3">
+<h3 class="anchored" data-anchor-id="coefficients">Coefficients</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$fixed
+                                         effect
+(Intercept)                          80.0000000
+Variety_Golden_rain                   0.0000000
+Variety_Marvellous                    6.6666667
+Variety_Victory                      -8.5000000
+Nitrogen_0_cwt                        0.0000000
+Nitrogen_0.2_cwt                     18.5000000
+Nitrogen_0.4_cwt                     34.6666667
+Nitrogen_0.6_cwt                     44.8333333
+Variety_Golden_rain:Nitrogen_0_cwt    0.0000000
+Variety_Golden_rain:Nitrogen_0.2_cwt  0.0000000
+Variety_Golden_rain:Nitrogen_0.4_cwt  0.0000000
+Variety_Golden_rain:Nitrogen_0.6_cwt  0.0000000
+Variety_Marvellous:Nitrogen_0_cwt     0.0000000
+Variety_Marvellous:Nitrogen_0.2_cwt   3.3333333
+Variety_Marvellous:Nitrogen_0.4_cwt  -4.1666667
+Variety_Marvellous:Nitrogen_0.6_cwt  -4.6666667
+Variety_Victory:Nitrogen_0_cwt        0.0000000
+Variety_Victory:Nitrogen_0.2_cwt     -0.3333333
+Variety_Victory:Nitrogen_0.4_cwt      4.6666667
+Variety_Victory:Nitrogen_0.6_cwt      2.1666667
+attr(,"terms")
+                            tname  n
+(Intercept)           (Intercept)  1
+Variety                   Variety  3
+Nitrogen                 Nitrogen  4
+Variety:Nitrogen Variety:Nitrogen 12
+
+$random
+                      effect
+Blocks_1           25.417028
+Blocks_2           -4.705189
+Blocks_3            2.656518
+Blocks_4          -10.581048
+Blocks_5           -6.528732
+Blocks_6           -6.258577
+Blocks_1:Wplots_1  -3.851187
+Blocks_1:Wplots_2  14.080632
+Blocks_1:Wplots_3   2.351459
+Blocks_2:Wplots_1  -7.116152
+Blocks_2:Wplots_2  -1.001696
+Blocks_2:Wplots_3   5.788877
+Blocks_3:Wplots_1   4.299037
+Blocks_3:Wplots_2   6.209805
+Blocks_3:Wplots_3  -9.193921
+Blocks_4:Wplots_1  -9.849414
+Blocks_4:Wplots_2   1.115452
+Blocks_4:Wplots_3   3.496562
+Blocks_5:Wplots_1  -7.916764
+Blocks_5:Wplots_2  -6.064789
+Blocks_5:Wplots_3  10.749965
+Blocks_6:Wplots_1  -1.316788
+Blocks_6:Wplots_2  -5.638062
+Blocks_6:Wplots_3   3.856983
+attr(,"terms")
+                      tname  n
+Blocks               Blocks  6
+Blocks:Wplots Blocks:Wplots 18
+
+$sparse
+NULL</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> Z <span class="sc">%*%</span> G <span class="sc">%*%</span> <span class="fu">t</span>(Z) <span class="sc">+</span> R</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Vinv <span class="ot">&lt;-</span> <span class="fu">solve</span>(V)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> Vinv <span class="sc">-</span> Vinv <span class="sc">%*%</span> X <span class="sc">%*%</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> Vinv <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> Vinv</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>(beta_hat <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> Vinv <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> Vinv <span class="sc">%*%</span> oats<span class="sc">$</span>yield)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>12 x 1 Matrix of class "dgeMatrix"
+                                        [,1]
+(Intercept)                       80.0000000
+VarietyMarvellous                  6.6666667
+VarietyVictory                    -8.5000000
+Nitrogen0.2_cwt                   18.5000000
+Nitrogen0.4_cwt                   34.6666667
+Nitrogen0.6_cwt                   44.8333333
+VarietyMarvellous:Nitrogen0.2_cwt  3.3333333
+VarietyVictory:Nitrogen0.2_cwt    -0.3333333
+VarietyMarvellous:Nitrogen0.4_cwt -4.1666667
+VarietyVictory:Nitrogen0.4_cwt     4.6666667
+VarietyMarvellous:Nitrogen0.6_cwt -4.6666667
+VarietyVictory:Nitrogen0.6_cwt     2.1666667</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>(u_tilde <span class="ot">&lt;-</span> G <span class="sc">%*%</span> <span class="fu">t</span>(Z) <span class="sc">%*%</span> Vinv <span class="sc">%*%</span> (oats<span class="sc">$</span>yield <span class="sc">-</span> X <span class="sc">%*%</span> beta_hat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>24 x 1 Matrix of class "dgeMatrix"
+            [,1]
+ [1,]  25.421560
+ [2,]  -4.706028
+ [3,]   2.656992
+ [4,] -10.582935
+ [5,]  -6.529896
+ [6,]  -6.259693
+ [7,]  -3.854384
+ [8,]  -7.115561
+ [9,]   4.298703
+[10,]  -9.848083
+[11,]  -7.915942
+[12,]  -1.316000
+[13,]  14.077434
+[14,]  -1.001105
+[15,]   6.209471
+[16,]   1.116783
+[17,]  -6.063968
+[18,]  -5.637275
+[19,]   2.348261
+[20,]   5.789469
+[21,]  -9.194255
+[22,]   3.497893
+[23,]  10.750786
+[24,]   3.857770</code></pre>
+</div>
+</div>
+</section>
+<section id="variance-covariance-matrix-of-coefficients" class="level3">
+<h3 class="anchored" data-anchor-id="variance-covariance-matrix-of-coefficients">Variance-covariance matrix of coefficients</h3>
+<p><span class="math inline">\(\dfrac{1}{\hat{\sigma}^2}\text{diag}(\mathbf{C}^{-1})\)</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>vcoeff</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$fixed
+ [1] 0.4681603 0.0000000 0.5329791 0.5329791 0.0000000 0.3333333 0.3333333
+ [8] 0.3333333 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.6666667
+[15] 0.6666667 0.6666667 0.0000000 0.6666667 0.6666667 0.6666667
+
+$random
+ [1] 0.3927909 0.3927909 0.3927909 0.3927909 0.3927909 0.3927909 0.3419351
+ [8] 0.3419351 0.3419351 0.3419351 0.3419351 0.3419351 0.3419351 0.3419351
+[15] 0.3419351 0.3419351 0.3419351 0.3419351 0.3419351 0.3419351 0.3419351
+[22] 0.3419351 0.3419351 0.3419351
+
+$sparse
+NULL</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">cbind</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> <span class="fu">solve</span>(R) <span class="sc">%*%</span> X, <span class="fu">t</span>(X) <span class="sc">%*%</span> <span class="fu">solve</span>(R) <span class="sc">%*%</span> Z), <span class="fu">cbind</span>(<span class="fu">t</span>(Z) <span class="sc">%*%</span> <span class="fu">solve</span>(R) <span class="sc">%*%</span> X, <span class="fu">t</span>(Z) <span class="sc">%*%</span> <span class="fu">solve</span>(R) <span class="sc">%*%</span> Z <span class="sc">+</span> <span class="fu">solve</span>(G)))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>Cinv <span class="ot">&lt;-</span> <span class="fu">solve</span>(C)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(Cinv) <span class="sc">/</span> fit<span class="sc">$</span>sigma2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      (Intercept)                 VarietyMarvellous 
+                        0.4683502                         0.5329791 
+                   VarietyVictory                   Nitrogen0.2_cwt 
+                        0.5329791                         0.3333333 
+                  Nitrogen0.4_cwt                   Nitrogen0.6_cwt 
+                        0.3333333                         0.3333333 
+VarietyMarvellous:Nitrogen0.2_cwt    VarietyVictory:Nitrogen0.2_cwt 
+                        0.6666667                         0.6666667 
+VarietyMarvellous:Nitrogen0.4_cwt    VarietyVictory:Nitrogen0.4_cwt 
+                        0.6666667                         0.6666667 
+VarietyMarvellous:Nitrogen0.6_cwt    VarietyVictory:Nitrogen0.6_cwt 
+                        0.6666667                         0.6666667 
+                          Blocks1                           Blocks2 
+                        0.3930149                         0.3930149 
+                          Blocks3                           Blocks4 
+                        0.3930149                         0.3930149 
+                          Blocks5                           Blocks6 
+                        0.3930149                         0.3930149 
+                  Blocks1:Wplots1                   Blocks2:Wplots1 
+                        0.3419520                         0.3419520 
+                  Blocks3:Wplots1                   Blocks4:Wplots1 
+                        0.3419520                         0.3419520 
+                  Blocks5:Wplots1                   Blocks6:Wplots1 
+                        0.3419520                         0.3419520 
+                  Blocks1:Wplots2                   Blocks2:Wplots2 
+                        0.3419520                         0.3419520 
+                  Blocks3:Wplots2                   Blocks4:Wplots2 
+                        0.3419520                         0.3419520 
+                  Blocks5:Wplots2                   Blocks6:Wplots2 
+                        0.3419520                         0.3419520 
+                  Blocks1:Wplots3                   Blocks2:Wplots3 
+                        0.3419520                         0.3419520 
+                  Blocks3:Wplots3                   Blocks4:Wplots3 
+                        0.3419520                         0.3419520 
+                  Blocks5:Wplots3                   Blocks6:Wplots3 
+                        0.3419520                         0.3419520 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="linear-predictors" class="level2">
+<h2 class="anchored" data-anchor-id="linear-predictors">Linear predictors</h2>
+<p><span class="math inline">\(\mathbf{X}\hat{\boldsymbol{\beta}} + \mathbf{Z}\tilde{\boldsymbol{u}}\)</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>linear.predictors</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 148.39918 138.73251 130.06584 108.23251 110.99766 129.16433 157.99766
+ [8] 150.33099 107.76849 126.26849 142.43515 152.60182 105.34532  74.84532
+[15]  96.67866 115.01199 112.79311  65.79311  83.95978 105.12645  99.58369
+[22]  81.08369 115.75035 125.91702 105.45556 121.62222 131.78889  86.95556
+[29] 135.69966 117.36632 126.03299  95.53299  64.96260 111.96260  83.12926
+[36] 104.29593  96.73620 106.40287  66.23620  88.06954  70.53440 105.20107
+[43] 115.36774  89.03440  82.58218 103.74885 111.41551  64.41551 110.38784
+[50]  65.55450 100.22117  84.05450  98.23981 105.90648  58.90648  77.07315
+[57] 121.38790 131.05457 112.72123  90.88790 103.25797  63.92464 110.92464
+[64]  82.09130 112.93669 102.77003  68.10336  86.60336  84.26507 106.09841
+[71] 114.76507 124.43174</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.vector</span>(X <span class="sc">%*%</span> beta_hat <span class="sc">+</span> Z <span class="sc">%*%</span> u_tilde)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 148.40051 138.73384 130.06718 108.23384 110.99899 129.16566 157.99899
+ [8] 150.33233 107.76982 126.26982 142.43649 152.60315 105.34508  74.84508
+[15]  96.67841 115.01174 112.79287  65.79287  83.95953 105.12620  99.58344
+[22]  81.08344 115.75011 125.91677 105.45570 121.62236 131.78903  86.95570
+[29] 135.69980 117.36646 126.03313  95.53313  64.96274 111.96274  83.12940
+[36] 104.29607  96.73565 106.40232  66.23565  88.06898  70.53385 105.20051
+[43] 115.36718  89.03385  82.58163 103.74829 111.41496  64.41496 110.38750
+[50]  65.55416 100.22083  84.05416  98.23947 105.90614  58.90614  77.07280
+[57] 121.38756 131.05422 112.72089  90.88756 103.25764  63.92431 110.92431
+[64]  82.09097 112.93637 102.76970  68.10303  86.60303  84.26474 106.09808
+[71] 114.76474 124.43141</code></pre>
+</div>
+</div>
+</section>
+<section id="prediction-error-variance-1" class="level2">
+<h2 class="anchored" data-anchor-id="prediction-error-variance-1">Prediction error variance</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(fit<span class="sc">$</span>Cfixed)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="linear-mixed-models_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(<span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> Vinv <span class="sc">%*%</span> X))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="linear-mixed-models_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>Csparse <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  asreml<span class="sc">::</span><span class="fu">sp2Matrix</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="linear-mixed-models_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(G <span class="sc">-</span> G <span class="sc">%*%</span> <span class="fu">t</span>(Z) <span class="sc">%*%</span> P <span class="sc">%*%</span> Z <span class="sc">%*%</span> G)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="linear-mixed-models_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="design-matrices" class="level2">
+<h2 class="anchored" data-anchor-id="design-matrices">Design matrices</h2>
+<p><span class="math inline">\(\mathbf{W} = \begin{bmatrix} \mathbf{X} &amp; \mathbf{Z} \end{bmatrix}\)</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(fit<span class="sc">$</span>design)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="linear-mixed-models_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>
