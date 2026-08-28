@@ -22,6 +22,13 @@ $$\begin{bmatrix} \boldsymbol{u} \\ \boldsymbol{\epsilon} \end{bmatrix} \sim N\l
 
 where $\mathbf{G}$ is the covariance matrix of random effects and $\mathbf{R}$ is the covariance matrix of residuals.
 
+### Alternative model setup
+
+$$\boldsymbol{y} = \mathbf{W}\boldsymbol{b} + \boldsymbol{\epsilon}$$
+
+where $\mathbf{W} = \begin{bmatrix} \mathbf{X} & \mathbf{Z} \end{bmatrix}$ and $\boldsymbol{b} = \begin{bmatrix} \boldsymbol{\beta} \\ \boldsymbol{u} \end{bmatrix}$.
+
+
 ## Mixed model equation 
 
 Also called Henderson's mixed model equation, the mixed model equation is given by
@@ -54,3 +61,10 @@ $$\underbrace{\begin{bmatrix} \mathbf{X}^\top \mathbf{R}^{-1} \mathbf{X} & \math
 
 
 $$\text{Var}\left(\begin{bmatrix} \hat{\boldsymbol{\beta}} - \boldsymbol{\beta} \\ \tilde{\boldsymbol{u}} - \boldsymbol{u} \end{bmatrix} \right) = \mathbf{C}^{-1} = \begin{bmatrix}\mathbf{C}^{XX} & \mathbf{C}^{XZ} \\ \mathbf{C}^{ZX} & \mathbf{C}^{ZZ} \end{bmatrix}$$
+
+
+## Prediction 
+
+$$\mathbf{D}\tilde{\boldsymbol{b}} = \begin{bmatrix} \mathbf{D}_{\beta} & \mathbf{D}_{u} \end{bmatrix} \begin{bmatrix} \hat{\boldsymbol{\beta}} \\ \tilde{\boldsymbol{u}} \end{bmatrix} = \mathbf{D}_{\beta}\hat{\boldsymbol{\beta}} + \mathbf{D}_{u}\tilde{\boldsymbol{u}}$$
+
+$$\text{Var}(\mathbf{D}\tilde{\boldsymbol{b}} - \mathbf{D}\boldsymbol{b}) = \mathbf{D}\mathbf{C}^{-1}\mathbf{D}^\top = \mathbf{D}_\beta \mathbf{C}^{XX} \mathbf{D}_\beta^\top + \mathbf{D}_\beta \mathbf{C}^{XZ} \mathbf{D}_u^\top + \mathbf{D}_u \mathbf{C}^{ZX} \mathbf{D}_\beta^\top + \mathbf{D}_u \mathbf{C}^{ZZ} \mathbf{D}_u^\top$$
