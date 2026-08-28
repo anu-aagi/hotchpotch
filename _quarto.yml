@@ -1,0 +1,16 @@
+project:
+  type: book
+
+book:
+  title: A Hotchpotch for the Biometrician
+  author: "Emi Tanaka"
+  date: "8/18/2021"
+  chapters:
+    - index.qmd
+    - asreml-depends.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
