@@ -1,0 +1,22 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "A Hotchpotch for the Biometrician",
+    "section": "",
+    "text": "Hello!\nThis handbook is a hotchpotch of things that might be useful for the biometrician.\nIt is acting as a primary dumping ground for things that might be useful but don’t have a clear home to go to.",
+    "crumbs": [
+      "Hello!"
+    ]
+  },
+  {
+    "objectID": "asreml-depends.html",
+    "href": "asreml-depends.html",
+    "title": "1  Publishing R package with asreml dependency",
+    "section": "",
+    "text": "Since asreml is a propreity software, you cannot just import asreml in an R package that depends on it.\nIn the DESCRIPTION file, you ought to add that\nSystemRequirements:\n    asreml (&gt;= 4.2.0)\nSome R packages on CRAN that has an asreml R dependency:\n\nagriutilities\nasremlPlus\nASRgenomics\nbiometryassist\nheritable\nmintyr\nnadiv\nstatgenGxE\nstatgenHTP\nstatgenSTA\nwgaim",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Publishing R package with asreml dependency</span>"
+    ]
+  }
+]
