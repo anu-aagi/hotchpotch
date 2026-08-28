@@ -177,6 +177,11 @@ window.Quarto = {
 <p>assuming</p>
 <p><span class="math display">\[\begin{bmatrix} \boldsymbol{u} \\ \boldsymbol{\epsilon} \end{bmatrix} \sim N\left(\begin{bmatrix} \boldsymbol{0} \\ \boldsymbol{0} \end{bmatrix}, \begin{bmatrix} \mathbf{G}(\boldsymbol{\sigma}_g) &amp; \boldsymbol{0} \\ \boldsymbol{0} &amp; \mathbf{R}(\boldsymbol{\sigma}_r) \end{bmatrix}\right)\]</span></p>
 <p>where <span class="math inline">\(\mathbf{G}\)</span> is the covariance matrix of random effects and <span class="math inline">\(\mathbf{R}\)</span> is the covariance matrix of residuals.</p>
+<section id="alternative-model-setup" class="level3">
+<h3 class="anchored" data-anchor-id="alternative-model-setup">Alternative model setup</h3>
+<p><span class="math display">\[\boldsymbol{y} = \mathbf{W}\boldsymbol{b} + \boldsymbol{\epsilon}\]</span></p>
+<p>where <span class="math inline">\(\mathbf{W} = \begin{bmatrix} \mathbf{X} &amp; \mathbf{Z} \end{bmatrix}\)</span> and <span class="math inline">\(\boldsymbol{b} = \begin{bmatrix} \boldsymbol{\beta} \\ \boldsymbol{u} \end{bmatrix}\)</span>.</p>
+</section>
 </section>
 <section id="mixed-model-equation" class="level2">
 <h2 class="anchored" data-anchor-id="mixed-model-equation">Mixed model equation</h2>
@@ -205,6 +210,11 @@ window.Quarto = {
 <li><p><span class="math inline">\(\mathbf{C}^{ZX} = \text{Cov}(\tilde{\boldsymbol{u}} - \boldsymbol{u}, \hat{\boldsymbol{\beta}} - \boldsymbol{\beta}) = -\mathbf{G} \mathbf{Z}^\top \mathbf{V}^{-1} \mathbf{X} (\mathbf{X}^\top \mathbf{V}^{-1} \mathbf{X})^{-1}\)</span></p></li>
 </ul>
 <p><span class="math display">\[\text{Var}\left(\begin{bmatrix} \hat{\boldsymbol{\beta}} - \boldsymbol{\beta} \\ \tilde{\boldsymbol{u}} - \boldsymbol{u} \end{bmatrix} \right) = \mathbf{C}^{-1} = \begin{bmatrix}\mathbf{C}^{XX} &amp; \mathbf{C}^{XZ} \\ \mathbf{C}^{ZX} &amp; \mathbf{C}^{ZZ} \end{bmatrix}\]</span></p>
+</section>
+<section id="prediction" class="level2">
+<h2 class="anchored" data-anchor-id="prediction">Prediction</h2>
+<p><span class="math display">\[\mathbf{D}\tilde{\boldsymbol{b}} = \begin{bmatrix} \mathbf{D}_{\beta} &amp; \mathbf{D}_{u} \end{bmatrix} \begin{bmatrix} \hat{\boldsymbol{\beta}} \\ \tilde{\boldsymbol{u}} \end{bmatrix} = \mathbf{D}_{\beta}\hat{\boldsymbol{\beta}} + \mathbf{D}_{u}\tilde{\boldsymbol{u}}\]</span></p>
+<p><span class="math display">\[\text{Var}(\mathbf{D}\tilde{\boldsymbol{b}} - \mathbf{D}\boldsymbol{b}) = \mathbf{D}\mathbf{C}^{-1}\mathbf{D}^\top = \mathbf{D}_\beta \mathbf{C}^{XX} \mathbf{D}_\beta^\top + \mathbf{D}_\beta \mathbf{C}^{XZ} \mathbf{D}_u^\top + \mathbf{D}_u \mathbf{C}^{ZX} \mathbf{D}_\beta^\top + \mathbf{D}_u \mathbf{C}^{ZZ} \mathbf{D}_u^\top\]</span></p>
 
 
 </section>
