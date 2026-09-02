@@ -17,13 +17,13 @@ This guide walks through moving your R and Python test files from your local mac
 
 For every file you want to run you will need a bash script to submit it to the computing node. For purposes of this tutorial I'm assuming a python and R file. We will start with these files on your local machine:
 
-[test_r.R](../files/test_r.R)
+[test_r.R](../files/gadi-manual/test_r.R)
 
-[test_python.py](../files/test_python.py)
+[test_python.py](../files/gadi-manual/test_python.py)
 
-[submit_test_r.sh](../files/submit_test_r.sh)
+[submit_test_r.sh](../files/gadi-manual/submit_test_r.sh)
 
-[submit_test_python.sh](../files/submit_test_python.sh)
+[submit_test_python.sh](../files/gadi-manual/submit_test_python.sh)
 
 # Check where in the gadi login node you're registered
 
