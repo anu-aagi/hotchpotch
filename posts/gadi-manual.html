@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-08-28">
+<meta name="author" content="Gusti F. Rais">
+<meta name="dcterms.date" content="2026-09-02">
 
-<title>Publishing R package with asreml dependency – A Hotchpotch for the Biometrician</title>
+<title>Gadi Manual for Running on the Supercomputer – A Hotchpotch for the Biometrician</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -112,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="floating nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -143,25 +144,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#files-you-need" id="toc-files-you-need" class="nav-link active" data-scroll-target="#files-you-need"><span class="header-section-number">1</span> Files you need</a></li>
+  <li><a href="#check-where-in-the-gadi-login-node-youre-registered" id="toc-check-where-in-the-gadi-login-node-youre-registered" class="nav-link" data-scroll-target="#check-where-in-the-gadi-login-node-youre-registered"><span class="header-section-number">2</span> Check where in the gadi login node you’re registered</a></li>
+  <li><a href="#transfer-files-from-your-computer-to-gadi" id="toc-transfer-files-from-your-computer-to-gadi" class="nav-link" data-scroll-target="#transfer-files-from-your-computer-to-gadi"><span class="header-section-number">3</span> Transfer files from your computer to Gadi</a></li>
+  <li><a href="#confirm-the-files-arrived" id="toc-confirm-the-files-arrived" class="nav-link" data-scroll-target="#confirm-the-files-arrived"><span class="header-section-number">4</span> Confirm the files arrived</a></li>
+  <li><a href="#move-the-files-to-scratch" id="toc-move-the-files-to-scratch" class="nav-link" data-scroll-target="#move-the-files-to-scratch"><span class="header-section-number">5</span> Move the files to scratch</a></li>
+  <li><a href="#set-up-a-python-venv-in-scratch" id="toc-set-up-a-python-venv-in-scratch" class="nav-link" data-scroll-target="#set-up-a-python-venv-in-scratch"><span class="header-section-number">6</span> Set up a Python venv in scratch</a></li>
+  <li><a href="#edit-the-submit-scripts" id="toc-edit-the-submit-scripts" class="nav-link" data-scroll-target="#edit-the-submit-scripts"><span class="header-section-number">7</span> Edit the submit scripts</a></li>
+  <li><a href="#check-module-versions" id="toc-check-module-versions" class="nav-link" data-scroll-target="#check-module-versions"><span class="header-section-number">8</span> Check module versions</a></li>
+  <li><a href="#make-the-scripts-executable" id="toc-make-the-scripts-executable" class="nav-link" data-scroll-target="#make-the-scripts-executable"><span class="header-section-number">9</span> Make the scripts executable</a></li>
+  <li><a href="#submit-the-jobs" id="toc-submit-the-jobs" class="nav-link" data-scroll-target="#submit-the-jobs"><span class="header-section-number">10</span> Submit the jobs</a></li>
+  <li><a href="#monitor-the-jobs" id="toc-monitor-the-jobs" class="nav-link" data-scroll-target="#monitor-the-jobs"><span class="header-section-number">11</span> Monitor the jobs</a></li>
+  <li><a href="#check-the-results" id="toc-check-the-results" class="nav-link" data-scroll-target="#check-the-results"><span class="header-section-number">12</span> Check the results</a></li>
+  <li><a href="#transfer-output-files-to-local-pc" id="toc-transfer-output-files-to-local-pc" class="nav-link" data-scroll-target="#transfer-output-files-to-local-pc"><span class="header-section-number">13</span> Transfer output files to local pc</a></li>
+  <li><a href="#confirm-files-have-been-transferred" id="toc-confirm-files-have-been-transferred" class="nav-link" data-scroll-target="#confirm-files-have-been-transferred"><span class="header-section-number">14</span> Confirm files have been transferred</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Publishing R package with asreml dependency</h1>
+<h1 class="title">Gadi Manual for Running on the Supercomputer</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Gusti F. Rais </p>
+          </div>
+  </div>
     
     <div>
     <div class="quarto-title-meta-heading">Last modified on</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 28, 2026</p>
+      <p class="date">September 2, 2026</p>
     </div>
   </div>
   
@@ -173,26 +204,112 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Since <code>asreml</code> is a propreity software, you cannot just import <code>asreml</code> in an R package that depends on it.</p>
-<p>In the DESCRIPTION file, you ought to add that</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SystemRequirements:</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">asreml</span> <span class="er">(</span><span class="op">&gt;</span>= <span class="ex">4.2.0</span><span class="kw">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Some R packages on CRAN that has an asreml R dependency:</p>
-<ul>
-<li><a href="https://cran.r-project.org/web/packages/agriutilities/index.html">agriutilities</a></li>
-<li><a href="https://cran.r-project.org/web/packages/asremlPlus/index.html">asremlPlus</a></li>
-<li><a href="https://cran.r-project.org/web/packages/ASRgenomics/index.html">ASRgenomics</a></li>
-<li><a href="https://cran.r-project.org/web/packages/biometryassist/index.html">biometryassist</a></li>
-<li><a href="https://cran.r-project.org/web/packages/heritable/index.html">heritable</a></li>
-<li><a href="https://cran.r-project.org/web/packages/mintyr/index.html">mintyr</a></li>
-<li><a href="https://cran.r-project.org/web/packages/nadiv/index.html">nadiv</a></li>
-<li><a href="https://cran.r-project.org/web/packages/statgenGxE/index.html">statgenGxE</a></li>
-<li><a href="https://cran.r-project.org/web/packages/statgenHTP/index.html">statgenHTP</a></li>
-<li><a href="https://cran.r-project.org/web/packages/statgenSTA/index.html">statgenSTA</a></li>
-<li><a href="https://cran.r-project.org/web/packages/wgaim/index.html">wgaim</a></li>
-</ul>
+<p>This guide walks through moving your R and Python test files from your local machine to Gadi, placing them in the right storage location, and submitting them as PBS jobs.</p>
+<section id="files-you-need" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Files you need</h1>
+<p>For every file you want to run you will need a bash script to submit it to the computing node. For purposes of this tutorial I’m assuming a python and R file. We will start with these files on your local machine:</p>
+<p><a href="../files/gadi-manual/test_r.R">test_r.R</a></p>
+<p><a href="../files/gadi-manual/test_python.py">test_python.py</a></p>
+<p><a href="../files/gadi-manual/submit_test_r.sh">submit_test_r.sh</a></p>
+<p><a href="../files/gadi-manual/submit_test_python.sh">submit_test_python.sh</a></p>
+</section>
+<section id="check-where-in-the-gadi-login-node-youre-registered" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Check where in the gadi login node you’re registered</h1>
+<p><code>ssh &lt;username&gt;@gadi.nci.org.au</code></p>
+<p>Once you log in, type your password. Keep in mind that in linux systems password input doesn’t show you what you write. It is still being written and just click enter.</p>
+<p><code>pwd</code></p>
+<p>This command will output something like <code>/home/111/ty1234</code>. <code>111</code> is your id and <code>ty1234</code> is your username.</p>
+</section>
+<section id="transfer-files-from-your-computer-to-gadi" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Transfer files from your computer to Gadi</h1>
+<p>Open a terminal on your own computer (not an SSH session into Gadi). From the folder containing the four files, run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> test_r.R test_python.py submit_test_r.sh submit_test_python.sh <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;</span>username<span class="op">&gt;</span>@gadi.nci.org.au:/home/<span class="op">&lt;</span>id<span class="op">&gt;</span>/<span class="op">&lt;</span>username<span class="op">&gt;</span>/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Enter your NCI password and MFA code when prompted. On Windows without scp available, use WinSCP or FileZilla instead.</p>
+</section>
+<section id="confirm-the-files-arrived" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Confirm the files arrived</h1>
+<p>In your Gadi SSH session, run:</p>
+<p><code>ls -la</code></p>
+<p>You should see all four files listed.</p>
+</section>
+<section id="move-the-files-to-scratch" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Move the files to scratch</h1>
+<p>Home directories are fine for tiny scripts but scratch is the recommended working space. Find your project code first:</p>
+<p><code>nci_account</code></p>
+<p>Then check your folder exists in /scratch and move the files:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> test_r.R test_python.py submit_test_r.sh submit_test_python.sh <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  /scratch/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>username<span class="op">&gt;</span>/</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /scratch/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>username<span class="op">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Confirm the move with <code>pwd</code> and <code>ls -la</code>.</p>
+<p>Note: files left in scratch for 100 days may be quarantined or deleted. Move any output files or processed data you want to keep long term into your pc.</p>
+</section>
+<section id="set-up-a-python-venv-in-scratch" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Set up a Python venv in scratch</h1>
+<p>If your project requires a python virtual environment, create your Python virtual environment in scratch instead. This works fine for active projects, but scratch has a 100 day inactivity quarantine, so treat the venv as something you may need to rebuild later, not permanent storage.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>module load python3<span class="op">/</span><span class="fl">3.11.7</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>python3 <span class="op">-</span>m venv <span class="op">/</span>scratch<span class="op">/&lt;</span>project<span class="op">&gt;/&lt;</span>username<span class="op">&gt;/</span>venvs<span class="op">/</span>myenv</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>source <span class="op">/</span>scratch<span class="op">/&lt;</span>project<span class="op">&gt;/&lt;</span>username<span class="op">&gt;/</span>venvs<span class="op">/</span>myenv<span class="op">/</span><span class="bu">bin</span><span class="op">/</span>activate</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>pip install numpy pandas</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Activate the same venv inside your submit script before running Python, right after the module load line:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load python3/3.11.7</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> /scratch/<span class="op">&lt;</span>project<span class="op">&gt;</span>/<span class="op">&lt;</span>username<span class="op">&gt;</span>/venvs/myenv/bin/activate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Also add the venv’s location to the storage line in your submit script if it is not already covered:</p>
+<p><code>#PBS -l storage=scratch/&lt;project&gt;</code></p>
+<p>If you go inactive on the project for an extended period, check that the venv still exists before relying on it, and rebuild with the same three commands above if it was purged.</p>
+</section>
+<section id="edit-the-submit-scripts" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Edit the submit scripts</h1>
+<p>Open both submit scripts and replace the <project> and <username> placeholders with your real values:</username></project></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> submit_test_r.sh</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> submit_test_python.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Save and exit with <code>Ctrl+O</code>, Enter, then <code>Ctrl+X</code>.</p>
+</section>
+<section id="check-module-versions" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Check module versions</h1>
+<p>The scripts assume specific R and Python module versions. Confirm they still exist:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> avail R</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> avail python3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If the versions in the scripts are not listed, edit the module load line in the relevant submit script to match an available version.</p>
+</section>
+<section id="make-the-scripts-executable" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Make the scripts executable</h1>
+<p>Run this command to ensure that the build file we built is executable</p>
+<p><code>chmod +x submit_test_r.sh submit_test_python.sh</code></p>
+</section>
+<section id="submit-the-jobs" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Submit the jobs</h1>
+<p>Submit each script with qsub. This queues the job for a compute node; it does not run on the login node.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> submit_test_r.sh</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> submit_test_python.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Each command returns a job ID, for example 176216494.gadi-pbs. Note these down.</p>
+</section>
+<section id="monitor-the-jobs" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Monitor the jobs</h1>
+<p><code>qstat -u &lt;username&gt;</code></p>
+<p>The S column shows status: Q for queued, R for running. A job disappears from this list once it finishes. To auto-refresh:</p>
+<p><code>watch -n 30 qstat -u &lt;username&gt;</code></p>
+</section>
+<section id="check-the-results" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Check the results</h1>
+<p>Once a job is no longer listed in qstat, look for its output files in the same folder:</p>
+<p><code>test_r_job.out</code> and <code>test_r_job.err</code></p>
+<p><code>test_py_job.out</code> and <code>test_py_job.err</code></p>
+<p>View them with cat, for example:</p>
+<p><code>cat test_r_job.out</code></p>
+<p>A successful run ends with a completion message in the .out file. The .err file should be empty.</p>
+</section>
+<section id="transfer-output-files-to-local-pc" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> Transfer output files to local pc</h1>
+<p>To copy result files back to your own computer, run scp from a terminal on your local machine, not from inside the Gadi SSH session. The direction is reversed from the upload: Gadi is now the source.</p>
+<p><code>scp &lt;username&gt;@gadi.nci.org.au:/scratch/&lt;project&gt;/&lt;username&gt;/&lt;filename&gt; ./</code></p>
+</section>
+<section id="confirm-files-have-been-transferred" class="level1" data-number="14">
+<h1 data-number="14"><span class="header-section-number">14</span> Confirm files have been transferred</h1>
+<p>Check in your destination folder whether all files you have specified to be transferred has succesfully transferred. If yes, ensure that leftover files in the GADI system have been cleaned</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

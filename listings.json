@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/gadi-manual.html",
       "/posts/linear-mixed-models.html",
       "/posts/asreml-depends.html"
     ]

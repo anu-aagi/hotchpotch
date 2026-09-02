@@ -2,18 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://anu-aagi.github.io/hotchpotch/index.html</loc>
-    <lastmod>2026-08-28T21:01:26.656Z</lastmod>
+    <lastmod>2026-09-02T03:41:46.891Z</lastmod>
   </url>
   <url>
-    <loc>https://anu-aagi.github.io/hotchpotch/posts/linear-mixed-models.html</loc>
-    <lastmod>2026-08-28T23:05:16.649Z</lastmod>
+    <loc>https://anu-aagi.github.io/hotchpotch/posts/gadi-manual.html</loc>
+    <lastmod>2026-09-02T05:42:55.660Z</lastmod>
   </url>
   <url>
     <loc>https://anu-aagi.github.io/hotchpotch/CODE_OF_CONDUCT.html</loc>
-    <lastmod>2026-08-28T05:45:01.000Z</lastmod>
+    <lastmod>2026-09-02T03:41:46.888Z</lastmod>
+  </url>
+  <url>
+    <loc>https://anu-aagi.github.io/hotchpotch/posts/linear-mixed-models.html</loc>
+    <lastmod>2026-09-02T03:41:46.892Z</lastmod>
   </url>
   <url>
     <loc>https://anu-aagi.github.io/hotchpotch/posts/asreml-depends.html</loc>
-    <lastmod>2026-08-28T20:54:56.922Z</lastmod>
+    <lastmod>2026-09-02T03:41:46.891Z</lastmod>
   </url>
 </urlset>
