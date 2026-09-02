@@ -1,0 +1,169 @@
+---
+title: Gadi Manual for Running on the Supercomputer
+author: Gusti F. Rais
+date: 2026-09-02
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-title: "Contents"
+    toc-depth: 2
+    number-sections: true
+---
+
+This guide walks through moving your R and Python test files from your local machine to Gadi, placing them in the right storage location, and submitting them as PBS jobs.
+
+# Files you need
+
+For every file you want to run you will need a bash script to submit it to the computing node. For purposes of this tutorial I'm assuming a python and R file. We will start with these files on your local machine:
+
+[test_r.R](../files/test_r.R)
+
+[test_python.py](../files/test_python.py)
+
+[submit_test_r.sh](../files/submit_test_r.sh)
+
+[submit_test_python.sh](../files/submit_test_python.sh)
+
+# Check where in the gadi login node you're registered
+
+`ssh <username>@gadi.nci.org.au`
+
+Once you log in, type your password. Keep in mind that in linux systems password input doesn't show you what you write. It is still being written and just click enter.
+
+`pwd`
+
+This command will output something like `/home/111/ty1234`. `111` is your id and `ty1234` is your username.
+
+# Transfer files from your computer to Gadi
+
+Open a terminal on your own computer (not an SSH session into Gadi). From the folder containing the four files, run:
+
+```bash
+scp test_r.R test_python.py submit_test_r.sh submit_test_python.sh \
+  <username>@gadi.nci.org.au:/home/<id>/<username>/
+```
+
+Enter your NCI password and MFA code when prompted. On Windows without scp available, use WinSCP or FileZilla instead.
+
+# Confirm the files arrived
+
+In your Gadi SSH session, run:
+
+`ls -la`
+
+You should see all four files listed.
+
+# Move the files to scratch
+
+Home directories are fine for tiny scripts but scratch is the recommended working space. Find your project code first:
+
+`nci_account`
+
+Then check your folder exists in /scratch and move the files:
+
+```bash
+mv test_r.R test_python.py submit_test_r.sh submit_test_python.sh \
+  /scratch/<project>/<username>/
+cd /scratch/<project>/<username>
+```
+
+Confirm the move with `pwd` and `ls -la`.
+
+Note: files left in scratch for 100 days may be quarantined or deleted. Move any output files or processed data you want to keep long term into your pc.
+
+# Set up a Python venv in scratch
+
+If your project requires a python virtual environment, create your Python virtual environment in scratch instead. This works fine for active projects, but scratch has a 100 day inactivity quarantine, so treat the venv as something you may need to rebuild later, not permanent storage.
+
+```py
+module load python3/3.11.7
+python3 -m venv /scratch/<project>/<username>/venvs/myenv
+source /scratch/<project>/<username>/venvs/myenv/bin/activate
+pip install numpy pandas
+```
+
+Activate the same venv inside your submit script before running Python, right after the module load line:
+
+```bash
+module load python3/3.11.7
+source /scratch/<project>/<username>/venvs/myenv/bin/activate
+```
+
+Also add the venv's location to the storage line in your submit script if it is not already covered:
+
+`#PBS -l storage=scratch/<project>`
+
+If you go inactive on the project for an extended period, check that the venv still exists before relying on it, and rebuild with the same three commands above if it was purged.
+
+# Edit the submit scripts
+
+Open both submit scripts and replace the <project> and <username> placeholders with your real values:
+
+```bash
+nano submit_test_r.sh
+nano submit_test_python.sh
+```
+
+Save and exit with `Ctrl+O`, Enter, then `Ctrl+X`.
+
+# Check module versions
+
+The scripts assume specific R and Python module versions. Confirm they still exist:
+
+```bash
+module avail R
+module avail python3
+```
+
+If the versions in the scripts are not listed, edit the module load line in the relevant submit script to match an available version.
+
+# Make the scripts executable
+
+Run this command to ensure that the build file we built is executable 
+
+`chmod +x submit_test_r.sh submit_test_python.sh`
+
+# Submit the jobs
+
+Submit each script with qsub. This queues the job for a compute node; it does not run on the login node.
+
+```bash
+qsub submit_test_r.sh
+qsub submit_test_python.sh
+```
+
+Each command returns a job ID, for example 176216494.gadi-pbs. Note these down.
+
+# Monitor the jobs
+
+`qstat -u <username>`
+
+The S column shows status: Q for queued, R for running. A job disappears from this list once it finishes. To auto-refresh:
+
+`watch -n 30 qstat -u <username>`
+
+# Check the results
+
+Once a job is no longer listed in qstat, look for its output files in the same folder:
+
+`test_r_job.out` and `test_r_job.err`
+
+`test_py_job.out` and `test_py_job.err`
+
+View them with cat, for example:
+
+`cat test_r_job.out`
+
+A successful run ends with a completion message in the .out file. The .err file should be empty.
+
+# Transfer output files to local pc
+
+To copy result files back to your own computer, run scp from a terminal on your local machine, not from inside the Gadi SSH session. The direction is reversed from the upload: Gadi is now the source.
+
+`scp <username>@gadi.nci.org.au:/scratch/<project>/<username>/<filename> ./`
+
+# Confirm files have been transferred
+
+Check in your destination folder whether all files you have specified to be transferred has succesfully transferred. If yes, ensure that leftover files in the GADI system have been cleaned
+
